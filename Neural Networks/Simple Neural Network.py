@@ -11,7 +11,7 @@ from scipy import ndimage as nd
 import tensorflow as tf
 
 #Batch creation functions from MNIST tutorials
-def dense_to_one_hot(labels_dense, num_classes=3):
+def dense_to_one_hot(labels_dense, num_classes=10):
     num_labels = labels_dense.shape[0]
     index_offset = np.arange(num_labels) * num_classes
     labels_one_hot = np.zeros((num_labels, num_classes))
@@ -59,14 +59,10 @@ sample_submission = pd.read_csv(os.path.join(sub_dir, 'Sample_Submission.csv'))
 train.head()
 
 temp = []
-for img_name in train.filename:
-    image_path = os.path.join(data_dir, img_name)
-    img = nd.imread(image_path)
-
-    list = np.array(img)
-    img = cv2.resize(img, (256,256))
-    new_image = np.array(img).reshape((256,256))
-    temp.append(new_image)
+for row in train.combined_data:
+    file_array = row.split("_")
+    input_row = np.array(file_array)
+    temp.append(input_row)
 
 train_x = np.stack(temp)
 
@@ -78,22 +74,18 @@ train_y, val_y = train.label.values[:split_size], train.label.values[split_size:
 
 #Test File
 temp = []
-for img_name in test.filename:
-    image_path = os.path.join(data_dir, img_name)
-    img = nd.imread(image_path)
-
-    list = np.array(img)
-    img = cv2.resize(img, (256,256))
-    new_image = np.array(img).reshape((256,256))
-    temp.append(new_image)
+for img_name in test.combined_data:
+    file_array = row.split("_")
+    input_row = np.array(file_array)
+    temp.append(input_row)
 
 test_x = np.stack(temp)
 
 ##Mutatable Parameters
 # number of neurons in each layer
-input_num_units = 256*256
-hidden_num_units = 500 #width of the model
-output_num_units = 3
+input_num_units = 5
+hidden_num_units = 5 #width of the model
+output_num_units = 10
 # set remaining variables
 epochs = 10
 batch_size = 100#128
@@ -118,14 +110,14 @@ biases = {
 
 #Single Layer Neural Network
 hidden_layer = tf.add(tf.matmul(x, weights['hidden']), biases['hidden'])
-hidden_layer = tf.nn.tanh(hidden_layer)
+hidden_layer = tf.nn.relu(hidden_layer)
 keep_prob = tf.placeholder(tf.float32)
 dropout = tf.nn.dropout(hidden_layer, keep_prob)
 output_layer = tf.matmul(dropout, weights['output']) + biases['output']
 
 # Back propagation
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=output_layer, labels=y))
-optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(cost)
+optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
 
 #Init variables
 init = tf.global_variables_initializer()
@@ -137,7 +129,7 @@ with tf.Session() as sess:
         total_batch = int(train.shape[0] / batch_size)
         for i in range(total_batch):
             batch_x, batch_y = batch_creator(batch_size, train_x.shape[0], 'train')
-            _, c = sess.run([optimizer, cost], feed_dict={x: batch_x, y: batch_y, keep_prob:0.5})
+            _, c = sess.run([optimizer, cost], feed_dict={x: batch_x, y: batch_y, keep_prob:1.0})
 
             avg_cost += c / total_batch
 
@@ -152,12 +144,12 @@ with tf.Session() as sess:
 
     predict = tf.argmax(output_layer, 1)
     pred = predict.eval({x: test_x.reshape(-1, input_num_units)})
-    sample_submission.filename = test.filename
+    sample_submission.combined_data = test.combined_data
     sample_submission.label = pred
     sample_submission.to_csv(os.path.join(test_dir, 'sub_rmlp.csv'), index=False)
 
 sample_dir = os.path.join(sub_dir, 'sub_rmlp.csv')
-test_dir = os.path.join(sub_dir, 'test_image.csv')
+test_dir = os.path.join(sub_dir, 'baseballTest.csv')
 
 guess = np.genfromtxt(sample_dir, delimiter=',')
 correct = np.genfromtxt(test_dir, delimiter=',')
