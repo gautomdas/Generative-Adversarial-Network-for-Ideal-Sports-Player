@@ -5,19 +5,36 @@
 <meta charset="iso-8859-1">
 <link rel="stylesheet" href="styles/layout.css" type="text/css">
 <!--[if lt IE 9]><script src="scripts/html5shiv.js"></script><![endif]-->
+<script>
+function getImage(number) {
+  //change later to get actual results
+  var start = "images/demo/";
+  if (number == 1) {
+    return start+"baseball.jpg";
+  }
+  if (number == 2) {
+    return start+"basketball.jpg";
+  }
+  if (number == 3) {
+    return start+"football.jpg";
+  }
+  return start+"hockey.jpg";
+}
+</script>
 </head>
 <body>
 <!-- content -->
 <div class="wrapper row2">
   <div id="container" class="clear">
     <!-- Slider -->
-    <section id="slider"><a href="#"><img src="images/demo/960x360.gif" alt=""></a></section>
+    <section id="slider"><img src="images/demo/baseball.jpg" onload="this.onload=null; this.src=getImage(1);" width="960" height="330" alt=""></a></section>
+    <p><center>HEHE XD</center></p>
     <!-- main content -->
     <div id="homepage">
       <!-- Services -->
       <section id="services" class="clear">
         <article class="one_third">
-          <figure><img src="images/demo/290x180.gif" width="290" height="180" alt="">
+          <figure><img src="images/demo/baseball.jpg" onload="this.onload=null; this.src=getImage(2);" width="290" height="100" alt="">
             <figcaption>
               <h2>Indonectetus facilis</h2>
               <p>Nullamlacus dui ipsum conseque loborttis non euisque morbi penas dapibulum orna.</p>
@@ -25,7 +42,7 @@
           </figure>
         </article>
         <article class="one_third">
-          <figure><img src="images/demo/290x180.gif" width="290" height="180" alt="">
+          <figure><img src="images/demo/baseball.jpg" onload="this.onload=null; this.src=getImage(3);" width="290" height="100" alt="">
             <figcaption>
               <h2>Indonectetus facilis</h2>
               <p>Nullamlacus dui ipsum conseque loborttis non euisque morbi penas dapibulum orna.</p>
@@ -33,7 +50,7 @@
           </figure>
         </article>
         <article class="one_third lastbox">
-          <figure><img src="images/demo/290x180.gif" width="290" height="180" alt="">
+          <figure><img src="images/demo/baseball.jpg" onload="this.onload=null; this.src=getImage(4);" width="290" height="100" alt="">
             <figcaption>
               <h2>Indonectetus facilis</h2>
               <p>Nullamlacus dui ipsum conseque loborttis non euisque morbi penas dapibulum orna.</p>
