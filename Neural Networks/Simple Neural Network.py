@@ -3,7 +3,6 @@
 Created on Fri Nov  3 19:37:44 2017
 @author: Gautom Das
 """
-import cv2
 import os
 import numpy as np
 import pandas as pd
@@ -38,9 +37,9 @@ rng = np.random.RandomState(seed)
 """
 All of the following rows of the program deal with file handling. 
 """
-root_dir = os.path.abspath('./')
+root_dir = os.path.abspath('..')
 print(root_dir)
-
+print(os.listdir(root_dir))
 
 data_dir = os.path.join(root_dir, 'CSV Data Files')
 curr_dir = os.path.join(root_dir, 'Neural Networks')
@@ -52,8 +51,8 @@ print(os.path.exists(data_dir))
 print(os.path.exists(sub_dir))
 
 
-train = pd.read_csv(os.path.join(sub_dir, 'baseballClean.csv'))
-test = pd.read_csv(os.path.join(sub_dir, 'baseballTest.csv'))
+train = pd.read_csv(os.path.join(data_dir, 'baseballClean.csv'))
+test = pd.read_csv(os.path.join(data_dir, 'baseballTest.csv'))
 sample_submission = pd.read_csv(os.path.join(sub_dir, 'Sample_Submission.csv'))
 
 train.head()
@@ -61,7 +60,14 @@ train.head()
 temp = []
 for row in train.combined_data:
     file_array = row.split("_")
+    count = 0
+    for each_val in file_array:
+        file_array[count] = float(each_val)
+        count+= 1
+    print("_________________________")
+    print(file_array)
     input_row = np.array(file_array)
+    #input_row = np.reshape(input_row, (-1, 1))
     temp.append(input_row)
 
 train_x = np.stack(temp)
@@ -74,22 +80,28 @@ train_y, val_y = train.label.values[:split_size], train.label.values[split_size:
 
 #Test File
 temp = []
-for img_name in test.combined_data:
+for row in test.combined_data:
     file_array = row.split("_")
+    count = 0
+    for each_val in file_array:
+        file_array[count] = float(each_val)
+        count += 1
+    print(file_array)
     input_row = np.array(file_array)
+    #input_row = np.reshape(input_row, (-1, 1))
     temp.append(input_row)
 
 test_x = np.stack(temp)
 
 ##Mutatable Parameters
 # number of neurons in each layer
-input_num_units = 5
-hidden_num_units = 5 #width of the model
+input_num_units = 4
+hidden_num_units = 7 #width of the model
 output_num_units = 10
 # set remaining variables
-epochs = 10
+epochs = 50
 batch_size = 100#128
-learning_rate = 1
+learning_rate = 0.001
 class_num = output_num_units
 
 # Place holders
@@ -111,13 +123,12 @@ biases = {
 #Single Layer Neural Network
 hidden_layer = tf.add(tf.matmul(x, weights['hidden']), biases['hidden'])
 hidden_layer = tf.nn.relu(hidden_layer)
-keep_prob = tf.placeholder(tf.float32)
-dropout = tf.nn.dropout(hidden_layer, keep_prob)
-output_layer = tf.matmul(dropout, weights['output']) + biases['output']
+
+output_layer = tf.matmul(hidden_layer, weights['output']) + biases['output']
 
 # Back propagation
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=output_layer, labels=y))
-optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
+optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(cost)
 
 #Init variables
 init = tf.global_variables_initializer()
@@ -129,7 +140,7 @@ with tf.Session() as sess:
         total_batch = int(train.shape[0] / batch_size)
         for i in range(total_batch):
             batch_x, batch_y = batch_creator(batch_size, train_x.shape[0], 'train')
-            _, c = sess.run([optimizer, cost], feed_dict={x: batch_x, y: batch_y, keep_prob:1.0})
+            _, c = sess.run([optimizer, cost], feed_dict={x: batch_x, y: batch_y})
 
             avg_cost += c / total_batch
 
@@ -140,16 +151,16 @@ with tf.Session() as sess:
 
     pred_temp = tf.equal(tf.argmax(output_layer, 1), tf.argmax(y, 1))
     accuracy = tf.reduce_mean(tf.cast(pred_temp, "float"))
-    print("Validation Accuracy:", accuracy.eval({x: val_x.reshape(-1, input_num_units), y: dense_to_one_hot(val_y), keep_prob:1.0}))
+    print("Validation Accuracy:", accuracy.eval({x: val_x.reshape(-1, input_num_units), y: dense_to_one_hot(val_y)}))
 
     predict = tf.argmax(output_layer, 1)
     pred = predict.eval({x: test_x.reshape(-1, input_num_units)})
     sample_submission.combined_data = test.combined_data
     sample_submission.label = pred
-    sample_submission.to_csv(os.path.join(test_dir, 'sub_rmlp.csv'), index=False)
+    sample_submission.to_csv(os.path.join(sub_dir, 'sub_rmlp.csv'), index=False)
 
 sample_dir = os.path.join(sub_dir, 'sub_rmlp.csv')
-test_dir = os.path.join(sub_dir, 'baseballTest.csv')
+test_dir = os.path.join(data_dir, 'baseballTest.csv')
 
 guess = np.genfromtxt(sample_dir, delimiter=',')
 correct = np.genfromtxt(test_dir, delimiter=',')
