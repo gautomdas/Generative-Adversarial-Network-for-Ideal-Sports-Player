@@ -177,6 +177,7 @@ correct = np.genfromtxt(test_dir, delimiter=',')
 counter = 0
 correct_vals = 0
 for each_row in guess:
+    print()
     if(each_row[1] == int(correct[counter][1])):
         correct_vals += 1
     counter += 1

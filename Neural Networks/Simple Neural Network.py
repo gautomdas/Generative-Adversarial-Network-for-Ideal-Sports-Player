@@ -67,7 +67,7 @@ for row in train.combined_data:
     print("_________________________")
     print(file_array)
     input_row = np.array(file_array)
-    #input_row = np.reshape(input_row, (-1, 1))
+    input_row = np.reshape(input_row, (-1, 1))
     temp.append(input_row)
 
 train_x = np.stack(temp)
@@ -88,7 +88,7 @@ for row in test.combined_data:
         count += 1
     print(file_array)
     input_row = np.array(file_array)
-    #input_row = np.reshape(input_row, (-1, 1))
+    input_row = np.reshape(input_row, (-1, 1))
     temp.append(input_row)
 
 test_x = np.stack(temp)
@@ -96,7 +96,7 @@ test_x = np.stack(temp)
 ##Mutatable Parameters
 # number of neurons in each layer
 input_num_units = 4
-hidden_num_units = 7 #width of the model
+hidden_num_units = 10 #width of the model
 output_num_units = 10
 # set remaining variables
 epochs = 50
