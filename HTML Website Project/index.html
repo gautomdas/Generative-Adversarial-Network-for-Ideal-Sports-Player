@@ -1,71 +1,75 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-<title>Basic 88</title>
-<meta charset="iso-8859-1">
-<link rel="stylesheet" href="styles/layout.css" type="text/css">
-<!--[if lt IE 9]><script src="scripts/html5shiv.js"></script><![endif]-->
-<script>
-function getImage(number) {
-  //change later to get actual results
-  var start = "images/demo/";
-  if (number == 1) {
-    return start+"baseball.jpg";
-  }
-  if (number == 2) {
-    return start+"basketball.jpg";
-  }
-  if (number == 3) {
-    return start+"football.jpg";
-  }
-  return start+"hockey.jpg";
-}
-</script>
-</head>
+<html>
+<title>W3.CSS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <body>
-<!-- content -->
-<div class="wrapper row2">
-  <div id="container" class="clear">
-    <!-- Slider -->
-    <section id="slider"><img src="images/demo/baseball.jpg" onload="this.onload=null; this.src=getImage(1);" width="960" height="330" alt=""></a></section>
-    <p><center>HEHE XD</center></p>
-    <!-- main content -->
-    <div id="homepage">
-      <!-- Services -->
-      <section id="services" class="clear">
-        <article class="one_third">
-          <figure><img src="images/demo/baseball.jpg" onload="this.onload=null; this.src=getImage(2);" width="290" height="100" alt="">
-            <figcaption>
-              <h2>Indonectetus facilis</h2>
-              <p>Nullamlacus dui ipsum conseque loborttis non euisque morbi penas dapibulum orna.</p>
-            </figcaption>
-          </figure>
-        </article>
-        <article class="one_third">
-          <figure><img src="images/demo/baseball.jpg" onload="this.onload=null; this.src=getImage(3);" width="290" height="100" alt="">
-            <figcaption>
-              <h2>Indonectetus facilis</h2>
-              <p>Nullamlacus dui ipsum conseque loborttis non euisque morbi penas dapibulum orna.</p>
-            </figcaption>
-          </figure>
-        </article>
-        <article class="one_third lastbox">
-          <figure><img src="images/demo/baseball.jpg" onload="this.onload=null; this.src=getImage(4);" width="290" height="100" alt="">
-            <figcaption>
-              <h2>Indonectetus facilis</h2>
-              <p>Nullamlacus dui ipsum conseque loborttis non euisque morbi penas dapibulum orna.</p>
-            </figcaption>
-          </figure>
-        </article>
-      </section>
-      <!-- / Services -->
-      <!-- ########################################################################################## -->
-      <!-- ########################################################################################## -->
-      <!-- ########################################################################################## -->
-      <!-- ########################################################################################## -->
-    </div>
-    <!-- / content body -->
-  </div>
+<head>
+.w3-row-padding {
+  display: none;
+}
+</head>
+<br>
+
+<div class="w3-container">
+  <h2>What Sport Do You Play?</h2>
 </div>
+
+<div class="w3-row-padding">
+
+<div class="w3-third w3-margin-bottom w3-animate-left">
+  <ul class="w3-ul w3-border w3-center w3-hover-shadow">
+    <li class="w3-black w3-xlarge w3-padding-32">Basic</li>
+    <li class="w3-padding-16"><b>10GB</b> Storage</li>
+    <li class="w3-padding-16"><b>10</b> Emails</li>
+    <li class="w3-padding-16"><b>10</b> Domains</li>
+    <li class="w3-padding-16"><b>Endless</b> Support</li>
+    <li class="w3-padding-16">
+      <h2 class="w3-wide">$ 10</h2>
+      <span class="w3-opacity">per month</span>
+    </li>
+    <li class="w3-light-grey w3-padding-24">
+      <button class="w3-button w3-green w3-padding-large">Sign Up</button>
+    </li>
+  </ul>
+</div>
+
+<div class="w3-third w3-margin-bottom">
+
+  <ul class="w3-ul w3-border w3-center w3-hover-shadow w3-animate-left">
+    <li class="w3-green w3-xlarge w3-padding-32">Pro</li>
+    <li class="w3-padding-16"><b>25GB</b> Storage</li>
+    <li class="w3-padding-16"><b>25</b> Emails</li>
+    <li class="w3-padding-16"><b>25</b> Domains</li>
+    <li class="w3-padding-16"><b>Endless</b> Support</li>
+    <li class="w3-padding-16">
+      <h2 class="w3-wide">$ 25</h2>
+      <span class="w3-opacity">per month</span>
+    </li>
+    <li class="w3-light-grey w3-padding-24">
+      <button class="w3-button w3-green w3-padding-large">Sign Up</button>
+    </li>
+  </ul>
+</div>
+
+<div class="w3-third w3-margin-bottom">
+  <ul class="w3-ul w3-border w3-center w3-hover-shadow w3-animate-left">
+    <li class="w3-black w3-xlarge w3-padding-32">Premium</li>
+    <li class="w3-padding-16"><b>50GB</b> Storage</li>
+    <li class="w3-padding-16"><b>50</b> Emails</li>
+    <li class="w3-padding-16"><b>50</b> Domains</li>
+    <li class="w3-padding-16"><b>Endless</b> Support</li>
+    <li class="w3-padding-16">
+      <h2 class="w3-wide">$ 50</h2>
+      <span class="w3-opacity">per month</span>
+    </li>
+    <li class="w3-light-grey w3-padding-24">
+      <button class="w3-button w3-green w3-padding-large">Sign Up</button>
+    </li>
+  </ul>
+</div>
+
+</div>
+
 </body>
 </html>

@@ -5,7 +5,7 @@ from scipy import ndimage as nd
 import tensorflow as tf
 
 #Batch creation functions from MNIST tutorials
-def dense_to_one_hot(labels_dense, num_classes=10):
+def dense_to_one_hot(labels_dense, num_classes=11):
     num_labels = labels_dense.shape[0]
     index_offset = np.arange(num_labels) * num_classes
     labels_one_hot = np.zeros((num_labels, num_classes))
@@ -94,12 +94,12 @@ n_nodes_hl1 = 6
 n_nodes_hl2 = 8
 n_nodes_hl3 = 10
 
-n_classes = 10
+n_classes = 11
 batch_size = 120
 input_num_units = 4
-output_num_units = 10
+output_num_units = 11
 learning_rate = 0.001
-hm_epochs = 15
+hm_epochs = 150
 
 # Place holders
 x = tf.placeholder(tf.float32, [None, input_num_units])
@@ -174,7 +174,7 @@ test_dir = os.path.join(data_dir, 'baseballTest.csv')
 guess = np.genfromtxt(sample_dir, delimiter=',')
 correct = np.genfromtxt(test_dir, delimiter=',')
 
-counter = 0
+counter = -1
 correct_vals = 0
 for each_row in guess:
     print()

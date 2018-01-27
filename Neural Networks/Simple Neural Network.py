@@ -97,7 +97,7 @@ test_x = np.stack(temp)
 # number of neurons in each layer
 input_num_units = 4
 hidden_num_units = 10 #width of the model
-output_num_units = 10
+output_num_units = 11
 # set remaining variables
 epochs = 50
 batch_size = 100#128
